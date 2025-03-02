@@ -17,7 +17,6 @@
 ##### workspace
 
     - to-do
-        - [] shadcn installation
         - [] setup login, register routes + pages
             - [] make call to django api
             - [] store said data in state
@@ -29,4 +28,4 @@
         - [x] initialize project
 
     - 02.03
-        -
+        - [x] shadcn installation
