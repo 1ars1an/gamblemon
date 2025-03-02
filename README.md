@@ -13,3 +13,20 @@
     - start learning react data fetching (swr)
     - start learning tanstack-router
     - add to my existing react knowledge + recover lost data
+
+##### workspace
+
+    - to-do
+        - [] shadcn installation
+        - [] setup login, register routes + pages
+            - [] make call to django api
+            - [] store said data in state
+            - [] handle errors, token refresh
+        - [] make api calls to backend, get user data
+        - [] setup landing, profile
+
+    - 27.02
+        - [x] initialize project
+
+    - 02.03
+        -
