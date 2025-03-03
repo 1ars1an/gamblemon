@@ -9,18 +9,27 @@ export const Route = createFileRoute('/app')({
 function RouteComponent() {
   return (
     <>
-      <nav className="">
-        <ul className="flex gap-10">
-          <Link to="/app/login">Login</Link>
-          <li>
-            <Link to="/app/register">Logout</Link>
-          </li>
-        </ul>
-      </nav>
-      <Outlet />
-      <footer>
-        <p>Footer</p>
-      </footer>
+      <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
+        <header className="flex p-6">
+          <div className="mr-auto">Logo</div>
+          <nav aria-label="main navigation">
+            <ul className="flex gap-10">
+              <li>
+                <Link to="/app/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/app/register">Logout</Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <main className="px-6">
+          <Outlet />
+        </main>
+        <footer className="p-6">
+          <p>Footer</p>
+        </footer>
+      </div>
     </>
   );
 }

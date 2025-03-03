@@ -29,3 +29,6 @@
 
     - 02.03
         - [x] shadcn installation
+
+    - 03.03
+        - [x] login, register ui w/ re-usable authform component
