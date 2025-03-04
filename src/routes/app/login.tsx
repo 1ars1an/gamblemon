@@ -1,6 +1,11 @@
 import React from 'react';
-import { createFileRoute } from '@tanstack/react-router';
-import { Link } from '@tanstack/react-router';
+import {
+  createFileRoute,
+  Link,
+  useNavigate,
+} from '@tanstack/react-router';
+
+import { useAuth } from '../../auth';
 
 import { z } from 'zod';
 import { AuthForm } from '../../components/ui/authform';
@@ -11,15 +16,28 @@ export const Route = createFileRoute('/app/login')({
 });
 
 function ProfileForm() {
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    console.log('hi');
+  const navigate = useNavigate({ from: '/app/login' });
+  const auth = useAuth();
+  const [formError, setFormError] = React.useState<string>('');
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { username, password } = values;
+    try {
+      await auth.login(username, password);
+      setFormError('');
+      navigate({ to: '/app' });
+    } catch (error) {
+      setFormError('Invalid Username/Password');
+    }
   }
 
   return (
     <>
       <div className="flex flex-col justify-center items-center bg-red-50 h-full">
-        <AuthForm onSubmit={onSubmit}></AuthForm>
+        <AuthForm
+          onSubmit={onSubmit}
+          formError={formError}
+        ></AuthForm>
         <div>
           <Link to="/app/register">New User? Register Now!</Link>
         </div>

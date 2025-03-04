@@ -29,8 +29,10 @@ export const formSchema = z.object({
 
 export function AuthForm({
   onSubmit,
+  formError,
 }: {
   onSubmit: (values: z.infer<typeof formSchema>) => void;
+  formError: string;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,6 +44,7 @@ export function AuthForm({
 
   return (
     <Form {...form}>
+      {formError && <FormDescription>{formError}</FormDescription>}
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 p-8"
@@ -66,7 +69,11 @@ export function AuthForm({
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="password" {...field} />
+                <Input
+                  type="password"
+                  placeholder="password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

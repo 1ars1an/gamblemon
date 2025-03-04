@@ -5,6 +5,7 @@ import {
   createRootRoute,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+import { useAuth } from '../auth';
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -12,6 +13,9 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  const { isAuthenticated } = useAuth();
+  console.log(isAuthenticated);
+
   return (
     <>
       <Outlet />

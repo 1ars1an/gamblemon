@@ -17,10 +17,7 @@
 ##### workspace
 
     - to-do
-        - [] setup login, register routes + pages
-            - [] make call to django api
-            - [] store said data in state
-            - [] handle errors, token refresh
+        - [] handle errors, token refresh
         - [] make api calls to backend, get user data
         - [] setup landing, profile
 
@@ -32,3 +29,7 @@
 
     - 03.03
         - [x] login, register ui w/ re-usable authform component
+            - [x] setup login, register routes + pages
+            - [x] make call to django api
+            - [x] store said data in state
+        - [x] logout functionality
