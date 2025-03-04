@@ -14,7 +14,6 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated);
 
   return (
     <>

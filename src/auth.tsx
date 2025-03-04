@@ -17,9 +17,6 @@ export function AuthProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [accessToken, setAccessToken] = React.useState<string | null>(
-    ''
-  );
   const [isAuthenticated, setIsAuthenticated] =
     React.useState<boolean>(false);
 
@@ -98,8 +95,8 @@ export function AuthProvider({
       const API_BASE_URL = 'http://127.0.0.1:8000';
 
       // Make the POST request using axios
-      const response = await axios.post(
-        `${API_BASE_URL}/users/token/`,
+      const response = await axios.get(
+        `${API_BASE_URL}/users/logout/`,
         {
           // this is crucial - it tells the browser to send and receive cookies
           withCredentials: true,

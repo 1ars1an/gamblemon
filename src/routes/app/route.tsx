@@ -1,14 +1,20 @@
 import React from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import { Link, Outlet } from '@tanstack/react-router';
+import { Link, Outlet, useNavigate } from '@tanstack/react-router';
 
 import { Button } from '@/components/ui/button';
+import { useAuth } from '../../auth';
 
 export const Route = createFileRoute('/app')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
+
+  console.log(isAuthenticated);
+
   return (
     <>
       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
@@ -21,11 +27,18 @@ function RouteComponent() {
                   <Link to="/app/login">Login</Link>
                 </span>
               </li>
-              <li>
-                <Button>
-                  <Link to="/app/register">Logout</Link>
-                </Button>
-              </li>
+              {isAuthenticated && (
+                <li>
+                  <Button
+                    onClick={() => {
+                      logout();
+                      navigate({ to: '/app' });
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </li>
+              )}
             </ul>
           </nav>
         </header>
