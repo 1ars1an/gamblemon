@@ -15,6 +15,10 @@ import { Route as AppRouteImport } from './routes/app/route'
 import { Route as AppIndexImport } from './routes/app/index'
 import { Route as AppRegisterImport } from './routes/app/register'
 import { Route as AppLoginImport } from './routes/app/login'
+import { Route as AppUserRouteImport } from './routes/app/user/route'
+import { Route as AppUserIndexImport } from './routes/app/user/index'
+import { Route as AppUserProfileImport } from './routes/app/user/profile'
+import { Route as AppUserCardsImport } from './routes/app/user/cards'
 
 // Create/Update Routes
 
@@ -42,6 +46,30 @@ const AppLoginRoute = AppLoginImport.update({
   getParentRoute: () => AppRouteRoute,
 } as any)
 
+const AppUserRouteRoute = AppUserRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppUserIndexRoute = AppUserIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppUserRouteRoute,
+} as any)
+
+const AppUserProfileRoute = AppUserProfileImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppUserRouteRoute,
+} as any)
+
+const AppUserCardsRoute = AppUserCardsImport.update({
+  id: '/cards',
+  path: '/cards',
+  getParentRoute: () => AppUserRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -52,6 +80,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app'
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRoute
+    }
+    '/app/user': {
+      id: '/app/user'
+      path: '/user'
+      fullPath: '/app/user'
+      preLoaderRoute: typeof AppUserRouteImport
+      parentRoute: typeof AppRouteImport
     }
     '/app/login': {
       id: '/app/login'
@@ -74,18 +109,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexImport
       parentRoute: typeof AppRouteImport
     }
+    '/app/user/cards': {
+      id: '/app/user/cards'
+      path: '/cards'
+      fullPath: '/app/user/cards'
+      preLoaderRoute: typeof AppUserCardsImport
+      parentRoute: typeof AppUserRouteImport
+    }
+    '/app/user/profile': {
+      id: '/app/user/profile'
+      path: '/profile'
+      fullPath: '/app/user/profile'
+      preLoaderRoute: typeof AppUserProfileImport
+      parentRoute: typeof AppUserRouteImport
+    }
+    '/app/user/': {
+      id: '/app/user/'
+      path: '/'
+      fullPath: '/app/user/'
+      preLoaderRoute: typeof AppUserIndexImport
+      parentRoute: typeof AppUserRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AppUserRouteRouteChildren {
+  AppUserCardsRoute: typeof AppUserCardsRoute
+  AppUserProfileRoute: typeof AppUserProfileRoute
+  AppUserIndexRoute: typeof AppUserIndexRoute
+}
+
+const AppUserRouteRouteChildren: AppUserRouteRouteChildren = {
+  AppUserCardsRoute: AppUserCardsRoute,
+  AppUserProfileRoute: AppUserProfileRoute,
+  AppUserIndexRoute: AppUserIndexRoute,
+}
+
+const AppUserRouteRouteWithChildren = AppUserRouteRoute._addFileChildren(
+  AppUserRouteRouteChildren,
+)
+
 interface AppRouteRouteChildren {
+  AppUserRouteRoute: typeof AppUserRouteRouteWithChildren
   AppLoginRoute: typeof AppLoginRoute
   AppRegisterRoute: typeof AppRegisterRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppUserRouteRoute: AppUserRouteRouteWithChildren,
   AppLoginRoute: AppLoginRoute,
   AppRegisterRoute: AppRegisterRoute,
   AppIndexRoute: AppIndexRoute,
@@ -97,31 +171,65 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
+  '/app/user': typeof AppUserRouteRouteWithChildren
   '/app/login': typeof AppLoginRoute
   '/app/register': typeof AppRegisterRoute
   '/app/': typeof AppIndexRoute
+  '/app/user/cards': typeof AppUserCardsRoute
+  '/app/user/profile': typeof AppUserProfileRoute
+  '/app/user/': typeof AppUserIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/app/login': typeof AppLoginRoute
   '/app/register': typeof AppRegisterRoute
   '/app': typeof AppIndexRoute
+  '/app/user/cards': typeof AppUserCardsRoute
+  '/app/user/profile': typeof AppUserProfileRoute
+  '/app/user': typeof AppUserIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/app/user': typeof AppUserRouteRouteWithChildren
   '/app/login': typeof AppLoginRoute
   '/app/register': typeof AppRegisterRoute
   '/app/': typeof AppIndexRoute
+  '/app/user/cards': typeof AppUserCardsRoute
+  '/app/user/profile': typeof AppUserProfileRoute
+  '/app/user/': typeof AppUserIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/app' | '/app/login' | '/app/register' | '/app/'
+  fullPaths:
+    | '/app'
+    | '/app/user'
+    | '/app/login'
+    | '/app/register'
+    | '/app/'
+    | '/app/user/cards'
+    | '/app/user/profile'
+    | '/app/user/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/app/login' | '/app/register' | '/app'
-  id: '__root__' | '/app' | '/app/login' | '/app/register' | '/app/'
+  to:
+    | '/app/login'
+    | '/app/register'
+    | '/app'
+    | '/app/user/cards'
+    | '/app/user/profile'
+    | '/app/user'
+  id:
+    | '__root__'
+    | '/app'
+    | '/app/user'
+    | '/app/login'
+    | '/app/register'
+    | '/app/'
+    | '/app/user/cards'
+    | '/app/user/profile'
+    | '/app/user/'
   fileRoutesById: FileRoutesById
 }
 
@@ -149,9 +257,19 @@ export const routeTree = rootRoute
     "/app": {
       "filePath": "app/route.tsx",
       "children": [
+        "/app/user",
         "/app/login",
         "/app/register",
         "/app/"
+      ]
+    },
+    "/app/user": {
+      "filePath": "app/user/route.tsx",
+      "parent": "/app",
+      "children": [
+        "/app/user/cards",
+        "/app/user/profile",
+        "/app/user/"
       ]
     },
     "/app/login": {
@@ -165,6 +283,18 @@ export const routeTree = rootRoute
     "/app/": {
       "filePath": "app/index.tsx",
       "parent": "/app"
+    },
+    "/app/user/cards": {
+      "filePath": "app/user/cards.tsx",
+      "parent": "/app/user"
+    },
+    "/app/user/profile": {
+      "filePath": "app/user/profile.tsx",
+      "parent": "/app/user"
+    },
+    "/app/user/": {
+      "filePath": "app/user/index.tsx",
+      "parent": "/app/user"
     }
   }
 }

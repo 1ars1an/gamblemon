@@ -3,6 +3,7 @@ import {
   createFileRoute,
   Link,
   useNavigate,
+  useLocation,
 } from '@tanstack/react-router';
 
 import { useAuth } from '../../auth';
@@ -17,6 +18,11 @@ export const Route = createFileRoute('/app/login')({
 
 function ProfileForm() {
   const navigate = useNavigate({ from: '/app/login' });
+  const location = useLocation();
+  // extract and sanitize `redirect`, default to "/app/dashboard"
+  const redirectTo =
+    new URLSearchParams(location.search).get('redirect') ||
+    '/app/user';
   const auth = useAuth();
   const [formError, setFormError] = React.useState<string>('');
 
@@ -25,7 +31,7 @@ function ProfileForm() {
     try {
       await auth.login(username, password);
       setFormError('');
-      navigate({ to: '/app' });
+      navigate({ to: redirectTo });
     } catch (error) {
       setFormError('Invalid Username/Password');
     }
