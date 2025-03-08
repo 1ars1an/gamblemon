@@ -91,14 +91,12 @@ export function AuthProvider({
 
   const logout = async () => {
     try {
-      // Create a base URL configuration for cleaner code
       const API_BASE_URL = 'http://127.0.0.1:8000';
 
       // Make the POST request using axios
       const response = await axios.get(
         `${API_BASE_URL}/users/logout/`,
         {
-          // this is crucial - it tells the browser to send and receive cookies
           withCredentials: true,
         }
       );

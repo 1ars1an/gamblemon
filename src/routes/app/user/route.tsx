@@ -7,19 +7,20 @@ import {
   Link,
 } from '@tanstack/react-router';
 
-import { useAuth } from '../../../auth';
 import { Button } from '@/components/ui/button';
 
 const authGuard = ({ context }) => {
   if (!context.auth.isAuthenticated) {
     throw redirect({
       to: '/app/login',
-      search: {
-        redirect: location.href,
-      },
+      search: `redirect=${encodeURIComponent(location.pathname + location.search)}`,
     });
   }
 };
+
+//encodeURIComponent(location.pathname + location.search) avoids breaking the URL,
+// location.href is unnecessary as it gives full URL
+// string interpolation since tanstack router expects a string
 
 export const Route = createFileRoute('/app/user')({
   component: RouteComponent,

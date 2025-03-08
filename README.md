@@ -4,6 +4,8 @@
     - cards: view cards, view deck, upgrade cards, choose borders?
     - packs: open packs, view packs, daily pack
     - profile: view profile, choose pinned cards
+    - matches: play against ai
+    - caching: cache data
 
 ##### goals
 
@@ -17,9 +19,7 @@
 ##### workspace
 
     - to-do
-        - [] handle errors, token refresh
-        - [] make api calls to backend, get user data
-        - [] setup landing, profile
+        - [] setup profile page
 
     - 27.02
         - [x] initialize project
@@ -33,3 +33,7 @@
             - [x] make call to django api
             - [x] store said data in state
         - [x] logout functionality
+
+    - 04.04
+        - [x] handle errors, token refresh
+        - [x] make api calls to backend, get user data

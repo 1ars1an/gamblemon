@@ -19,10 +19,10 @@ export const Route = createFileRoute('/app/login')({
 function ProfileForm() {
   const navigate = useNavigate({ from: '/app/login' });
   const location = useLocation();
-  // extract and sanitize `redirect`, default to "/app/dashboard"
-  const redirectTo =
-    new URLSearchParams(location.search).get('redirect') ||
-    '/app/user';
+
+  const params = new URLSearchParams(location.search);
+  const redirectTo = params.get('redirect') || '/app/user';
+
   const auth = useAuth();
   const [formError, setFormError] = React.useState<string>('');
 

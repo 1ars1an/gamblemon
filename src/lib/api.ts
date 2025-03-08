@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useAuth } from '../auth';
 
 const api = axios.create({
   baseURL: 'http://127.0.0.1:8000/api',
@@ -22,10 +21,12 @@ api.interceptors.response.use(
         // 2. retry the failed request with the new token
         return axios(error.config);
       } catch (refreshError) {
+        console.log(refreshError);
         // 3. refresh failed, log out the user
         return Promise.reject(refreshError);
       }
     }
+    console.log('i ran');
     return Promise.reject(error);
   }
 );
