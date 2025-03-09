@@ -7,8 +7,13 @@ import {
 
 import axios, { AxiosInstance } from 'axios';
 import api from '../../../lib/api';
+import { AppRouteContext } from '../../../main';
 
-const apiGuard = async ({ context }) => {
+const apiGuard = async ({
+  context,
+}: {
+  context: AppRouteContext;
+}) => {
   async function getCards(api: AxiosInstance) {
     try {
       const response = await api.get('/cards/');

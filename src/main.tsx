@@ -3,7 +3,11 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 
-import { AuthProvider, useAuth } from './auth';
+import { AuthContext, AuthProvider, useAuth } from './auth';
+
+export interface AppRouteContext {
+  auth?: AuthContext;
+}
 
 // Set up a Router instance
 const router = createRouter({
@@ -11,7 +15,7 @@ const router = createRouter({
   defaultPreload: 'intent',
   scrollRestoration: true,
   context: {
-    auth: undefined!, //setup after app is wrapped in authprovider
+    auth: {} as AppRouteContext, //setup after app is wrapped in authprovider
   },
 });
 
