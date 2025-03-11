@@ -107,7 +107,9 @@
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary-foreground: var(
+    --sidebar-primary-foreground
+  );
   --color-sidebar-accent: var(--sidebar-accent);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
@@ -121,4 +123,63 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.border-common-custom {
+  @apply border-2 border-red-700;
+}
+
+.border-basic-custom {
+  @apply border-2 border-red-700;
+}
+
+@keyframes glitter {
+  0% {
+    border-color: #ffdd57;
+  }
+  25% {
+    border-color: #ff57f5;
+  }
+  50% {
+    border-color: #57fffb;
+  }
+  75% {
+    border-color: #ffdd57;
+  }
+  100% {
+    border-color: #ff57f5;
+  }
+}
+
+.border-glitter-custom {
+  @apply border-2 border-yellow-400;
+  animation: glitter 1.5s infinite linear;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(1px, -1px) skewX(2deg);
+    filter: drop-shadow(3px 3px cyan) drop-shadow(-3px -3px magenta);
+  }
+  25% {
+    transform: translate(-1px, 1px) skewX(-2deg);
+    filter: drop-shadow(-3px -3px cyan) drop-shadow(3px 3px magenta);
+  }
+  50% {
+    transform: translate(2px, -2px) skewX(3deg);
+    filter: drop-shadow(3px -3px cyan) drop-shadow(-3px 3px magenta);
+  }
+  75% {
+    transform: translate(-2px, 2px) skewX(-3deg);
+    filter: drop-shadow(-3px 3px cyan) drop-shadow(3px -3px magenta);
+  }
+  100% {
+    transform: translate(0px, 0px) skewX(0deg);
+    filter: drop-shadow(3px 3px cyan) drop-shadow(-3px -3px magenta);
+  }
+}
+
+.border-glitch-custom {
+  @apply border-2 border-red-500 rounded-xl;
+  animation: glitch 0.4s infinite alternate;
 }
