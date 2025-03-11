@@ -98,7 +98,7 @@ function RouteComponent() {
   console.log(extractedCards);
 
   return (
-    <div className="grid grid-cols-3 gap-40 justify-items-center">
+    <div className="grid grid-cols-3 gap-20 justify-items-center">
       {extractedCards.map((card: Pokemon) => {
         return <PokeCard pokemon={card} key={card.pokeId} />;
       })}

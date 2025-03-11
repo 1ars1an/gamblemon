@@ -14,6 +14,8 @@ import {
   AvatarImage,
 } from '@/components/ui/avatar';
 
+import { StatBar } from './statbar';
+
 import { Pokemon } from '../../routes/app/user/cards';
 
 export function PokeCard({ pokemon }: { pokemon: Pokemon }) {
@@ -54,22 +56,13 @@ export function PokeCard({ pokemon }: { pokemon: Pokemon }) {
           </Avatar>
         </div>
       </CardContent>
-      <CardFooter className="block relative px-12 pt-8">
-        {/* HP Bar */}
-        <div className="relative w-full h-2 bg-gray-300 rounded-full overflow-hidden">
-          <div
-            className="absolute top-0 left-0 h-full bg-red-500"
-            style={{ width: `${Math.min(hp, 100)}%` }} // Capped at 100% for UI
-          ></div>
-        </div>
-        {/* Attack Circle - Top Left */}
-        <div className="absolute -bottom-20 left-2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white text-sm font-bold w-16 h-16 flex items-center justify-center rounded-full shadow-lg">
-          {pokemon.exp}
-        </div>
-
-        {/* Defense Circle - Top Right */}
-        <div className="absolute -bottom-20 right-2 transform translate-x-1/2 -translate-y-1/2 bg-green-500 text-white text-sm font-bold w-16 h-16 flex items-center justify-center rounded-full shadow-lg">
-          {pokemon.exp}
+      <CardFooter className="block relative pt-8">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4">
+            <StatBar value={hp} color="bg-red-500" />
+            <StatBar value={scaledAttack} color="bg-green-500" />
+            <StatBar value={scaledDefense} color="bg-blue-500" />
+          </div>
         </div>
       </CardFooter>
     </Card>
