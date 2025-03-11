@@ -19,6 +19,7 @@ import { Route as AppUserRouteImport } from './routes/app/user/route'
 import { Route as AppUserIndexImport } from './routes/app/user/index'
 import { Route as AppUserProfileImport } from './routes/app/user/profile'
 import { Route as AppUserCardsImport } from './routes/app/user/cards'
+import { Route as AppUserCardIdImport } from './routes/app/user/$cardId'
 
 // Create/Update Routes
 
@@ -70,6 +71,12 @@ const AppUserCardsRoute = AppUserCardsImport.update({
   getParentRoute: () => AppUserRouteRoute,
 } as any)
 
+const AppUserCardIdRoute = AppUserCardIdImport.update({
+  id: '/$cardId',
+  path: '/$cardId',
+  getParentRoute: () => AppUserRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -109,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexImport
       parentRoute: typeof AppRouteImport
     }
+    '/app/user/$cardId': {
+      id: '/app/user/$cardId'
+      path: '/$cardId'
+      fullPath: '/app/user/$cardId'
+      preLoaderRoute: typeof AppUserCardIdImport
+      parentRoute: typeof AppUserRouteImport
+    }
     '/app/user/cards': {
       id: '/app/user/cards'
       path: '/cards'
@@ -136,12 +150,14 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AppUserRouteRouteChildren {
+  AppUserCardIdRoute: typeof AppUserCardIdRoute
   AppUserCardsRoute: typeof AppUserCardsRoute
   AppUserProfileRoute: typeof AppUserProfileRoute
   AppUserIndexRoute: typeof AppUserIndexRoute
 }
 
 const AppUserRouteRouteChildren: AppUserRouteRouteChildren = {
+  AppUserCardIdRoute: AppUserCardIdRoute,
   AppUserCardsRoute: AppUserCardsRoute,
   AppUserProfileRoute: AppUserProfileRoute,
   AppUserIndexRoute: AppUserIndexRoute,
@@ -175,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/app/login': typeof AppLoginRoute
   '/app/register': typeof AppRegisterRoute
   '/app/': typeof AppIndexRoute
+  '/app/user/$cardId': typeof AppUserCardIdRoute
   '/app/user/cards': typeof AppUserCardsRoute
   '/app/user/profile': typeof AppUserProfileRoute
   '/app/user/': typeof AppUserIndexRoute
@@ -184,6 +201,7 @@ export interface FileRoutesByTo {
   '/app/login': typeof AppLoginRoute
   '/app/register': typeof AppRegisterRoute
   '/app': typeof AppIndexRoute
+  '/app/user/$cardId': typeof AppUserCardIdRoute
   '/app/user/cards': typeof AppUserCardsRoute
   '/app/user/profile': typeof AppUserProfileRoute
   '/app/user': typeof AppUserIndexRoute
@@ -196,6 +214,7 @@ export interface FileRoutesById {
   '/app/login': typeof AppLoginRoute
   '/app/register': typeof AppRegisterRoute
   '/app/': typeof AppIndexRoute
+  '/app/user/$cardId': typeof AppUserCardIdRoute
   '/app/user/cards': typeof AppUserCardsRoute
   '/app/user/profile': typeof AppUserProfileRoute
   '/app/user/': typeof AppUserIndexRoute
@@ -209,6 +228,7 @@ export interface FileRouteTypes {
     | '/app/login'
     | '/app/register'
     | '/app/'
+    | '/app/user/$cardId'
     | '/app/user/cards'
     | '/app/user/profile'
     | '/app/user/'
@@ -217,6 +237,7 @@ export interface FileRouteTypes {
     | '/app/login'
     | '/app/register'
     | '/app'
+    | '/app/user/$cardId'
     | '/app/user/cards'
     | '/app/user/profile'
     | '/app/user'
@@ -227,6 +248,7 @@ export interface FileRouteTypes {
     | '/app/login'
     | '/app/register'
     | '/app/'
+    | '/app/user/$cardId'
     | '/app/user/cards'
     | '/app/user/profile'
     | '/app/user/'
@@ -267,6 +289,7 @@ export const routeTree = rootRoute
       "filePath": "app/user/route.tsx",
       "parent": "/app",
       "children": [
+        "/app/user/$cardId",
         "/app/user/cards",
         "/app/user/profile",
         "/app/user/"
@@ -283,6 +306,10 @@ export const routeTree = rootRoute
     "/app/": {
       "filePath": "app/index.tsx",
       "parent": "/app"
+    },
+    "/app/user/$cardId": {
+      "filePath": "app/user/$cardId.tsx",
+      "parent": "/app/user"
     },
     "/app/user/cards": {
       "filePath": "app/user/cards.tsx",

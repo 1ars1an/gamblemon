@@ -17,6 +17,7 @@ import {
 import { StatBar } from './statbar';
 
 import { Pokemon } from '../../routes/app/user/cards';
+import { Link } from '@tanstack/react-router';
 
 export function PokeCard({ pokemon }: { pokemon: Pokemon }) {
   // Extract stats
@@ -32,12 +33,13 @@ export function PokeCard({ pokemon }: { pokemon: Pokemon }) {
   const scaledAttack = attack * 0.7 + speed * 0.3;
   const scaledDefense = defense * 0.7 + speed * 0.3;
 
-  const maxStatValue = 200; // Adjust based on highest possible Pokémon stat
+  const maxStatValue = 100; // Adjust based on highest possible Pokémon stat
 
   const normalizedAttack = (scaledAttack / maxStatValue) * 100;
   const normalizedDefense = (scaledDefense / maxStatValue) * 100;
 
-  return (
+  // FRONT: Full card
+  const FrontFace = () => (
     <Card
       className={`min-w-[150px] max-w-[350px] w-full border-${pokemon.borderStyle}-custom`}
     >
@@ -65,13 +67,61 @@ export function PokeCard({ pokemon }: { pokemon: Pokemon }) {
       </CardContent>
       <CardFooter className="block pt-8">
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-4">
-            <StatBar value={hp} color="bg-red-500" />
-            <StatBar value={normalizedAttack} color="bg-green-500" />
-            <StatBar value={normalizedDefense} color="bg-blue-500" />
-          </div>
+          <StatBar value={hp} color="bg-red-500" />
+          <StatBar value={normalizedAttack} color="bg-green-500" />
+          <StatBar value={normalizedDefense} color="bg-blue-500" />
         </div>
       </CardFooter>
     </Card>
+  );
+
+  // BACK: Just a single image
+  const BackFace = () => (
+    <Card
+      className={`p-0 min-w-[150px] max-w-[350px] w-full h-full border-${pokemon.borderStyle}-custom overflow-hidden`}
+    >
+      <CardContent className="p-0 h-full w-full">
+        <img
+          src={`/${pokemon.rarity}.webp`}
+          alt={`${pokemon.pokemon} card back`}
+          className="object-cover w-full h-full"
+        />
+      </CardContent>
+    </Card>
+  );
+
+  return (
+    // 3D perspective container (must be in normal flow to work with the grid)
+    <Link
+      to={`/app/user/cards/${pokemon.pokeId}`}
+      className="group relative min-w-[150px] max-w-[350px] w-full"
+      style={{ perspective: '1000px' }}
+    >
+      {/* The element that flips on hover */}
+      <div
+        className="
+          relative w-full
+          transition-transform duration-700
+          [transform-style:preserve-3d]
+          group-hover:rotate-y-180
+        "
+      >
+        {/* FRONT FACE (in normal flow, defines container height) */}
+        <div className="backface-hidden">
+          <FrontFace />
+        </div>
+
+        {/* BACK FACE (absolutely positioned, rotated) */}
+        <div
+          className="
+            absolute top-0 left-0 w-full h-full
+            rotate-y-180
+            backface-hidden
+          "
+        >
+          <BackFace />
+        </div>
+      </div>
+    </Link>
   );
 }
