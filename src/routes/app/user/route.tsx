@@ -8,6 +8,12 @@ import {
 } from '@tanstack/react-router';
 
 import { Button } from '@/components/ui/button';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs';
 
 const authGuard = ({ context }) => {
   if (!context.auth.isAuthenticated) {
@@ -19,7 +25,7 @@ const authGuard = ({ context }) => {
 };
 
 //encodeURIComponent(location.pathname + location.search) avoids breaking the URL,
-// location.href is unnecessary as it gives full URL
+// location.href is unnecessary as it gives fullBB URL
 // string interpolation since tanstack router expects a string
 
 export const Route = createFileRoute('/app/user')({
@@ -29,12 +35,12 @@ export const Route = createFileRoute('/app/user')({
 
 function RouteComponent() {
   return (
-    <div className="grid">
-      <nav>
-        <ul className="flex gap-4">
+    <div className="flex flex-col gap-6">
+      <nav className="">
+        <ul className="flex gap-4 justify-center">
           <li>
             <Button asChild>
-              <Link to="/app/user/cards">Cards</Link>
+              <Link to="/app/user/profile">Profile</Link>
             </Button>
           </li>
           <li>
@@ -46,7 +52,6 @@ function RouteComponent() {
         </ul>
       </nav>
       <Outlet />
-      <div>Hi</div>
     </div>
   );
 }

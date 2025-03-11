@@ -16,7 +16,7 @@
     - start learning tanstack-router
     - add to my existing react knowledge + recover lost data
 
-##### workspace
+##### progress bar
 
     - to-do
         - [] setup profile page
@@ -37,3 +37,15 @@
     - 04.04
         - [x] handle errors, token refresh
         - [x] make api calls to backend, get user data
+
+##### workspace
+
+    - creating display page for all cards
+        - define grid -> paginated?
+        - define card ui
+        - pull request data into cards
+        - link to individual cards - how are we implementing this?
+        - loading state while cards are being fetched
+        - animation / aesthetic enhancements on cards
+
+        - rabbit: pagination, display individual card - new page or pop up

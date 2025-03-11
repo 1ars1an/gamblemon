@@ -1,9 +1,11 @@
 import React from 'react';
 import {
   createFileRoute,
-  Outlet,
   redirect,
+  useLoaderData,
 } from '@tanstack/react-router';
+
+import { PokeCard } from '../../../components/ui/pokecard';
 
 import axios, { AxiosInstance } from 'axios';
 import api from '../../../lib/api';
@@ -43,13 +45,63 @@ const apiGuard = async ({
   }
 
   console.log('API call succeeded:', response.data);
+  return response.data;
 };
 
 export const Route = createFileRoute('/app/user/cards')({
   component: RouteComponent,
-  beforeLoad: apiGuard,
+  loader: apiGuard,
+  pendingComponent: () => <div>Loading</div>,
 });
 
+export interface Pokemon {
+  owner: number;
+  pokeId: number;
+  pokemon: string;
+  exp: number;
+  type: string[];
+  spriteUrl: string;
+  shinySpriteUrl: string;
+  stats: { val: number; stat: string }[];
+  isShiny?: boolean;
+  borderStyle: string;
+  rarity: string;
+}
+
 function RouteComponent() {
-  return <h1>CSADS</h1>;
+  const cards = Route.useLoaderData();
+  console.log(cards);
+  const extractedCards: Pokemon[] = cards.map((card: any) => {
+    return {
+      owner: card.owner,
+      pokeId: card.pokemon.poke_id,
+      pokemon: card.pokemon.name,
+      exp: card.pokemon.base_experience,
+      type: card.pokemon.type.map((type: any) => type.name),
+      spriteUrl: card.pokemon.get_sprite_url.front,
+      shinySpriteUrl: card.pokemon.get_sprite_url.front_shiny,
+      stats: card.pokemon.stats
+        .filter(
+          (stat: any) =>
+            stat.stat.name !== 'special-attack' &&
+            stat.stat.name !== 'special-defense'
+        )
+        .map((stat: any) => ({
+          stat: stat.stat.name,
+          val: stat.base_stat,
+        })), // Extract base stats
+      isShiny: card.is_shiny,
+      borderStyle: card.border_style,
+      rarity: card.rarity,
+    };
+  });
+  console.log(extractedCards);
+
+  return (
+    <div className="grid grid-cols-3 gap-40 justify-items-center">
+      {extractedCards.map((card: Pokemon) => {
+        return <PokeCard pokemon={card} key={card.pokeId} />;
+      })}
+    </div>
+  );
 }

@@ -6,7 +6,7 @@ import { routeTree } from './routeTree.gen';
 import { AuthContext, AuthProvider, useAuth } from './auth';
 
 export interface AppRouteContext {
-  auth?: AuthContext;
+  auth: AuthContext;
 }
 
 // Set up a Router instance
