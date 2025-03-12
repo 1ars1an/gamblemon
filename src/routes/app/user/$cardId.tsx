@@ -7,5 +7,6 @@ export const Route = createFileRoute('/app/user/$cardId')({
 });
 
 function RouteComponent() {
+  console.log('i ran');
   return <div>Hello "/app/user/$cardId"!</div>;
 }

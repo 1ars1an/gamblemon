@@ -70,7 +70,6 @@ export interface Pokemon {
 
 function RouteComponent() {
   const cards = Route.useLoaderData();
-  console.log(cards);
   const extractedCards: Pokemon[] = cards.map((card: any) => {
     return {
       owner: card.owner,
@@ -95,6 +94,7 @@ function RouteComponent() {
       rarity: card.rarity,
     };
   });
+
   console.log(extractedCards);
 
   return (
