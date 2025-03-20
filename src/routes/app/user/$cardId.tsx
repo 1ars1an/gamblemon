@@ -6,6 +6,12 @@ import { Pokemon } from './cards';
 
 import { PokeCard } from '../../../components/ui/pokecard';
 
+import { Trash } from 'lucide-react';
+
+import { Button } from '../../../components/ui/button';
+
+import { SelectForm } from '../../../components/ui/selectform';
+
 import axios, { AxiosInstance } from 'axios';
 import api from '../../../lib/api';
 import { AppRouteContext } from '../../../main';
@@ -56,6 +62,16 @@ export const Route = createFileRoute('/app/user/$cardId')({
   },
 });
 
+const borderStyles: string[] = ['basic', 'glitter', 'glitch'];
+
+const rarities: string[] = [
+  'common',
+  'silver',
+  'gold',
+  'cny',
+  'sakura',
+];
+
 function RouteComponent() {
   const card = Route.useLoaderData();
   const extractedCard: Pokemon = {
@@ -88,7 +104,25 @@ function RouteComponent() {
         pokemon={extractedCard}
         key={extractedCard.pokeId}
       ></PokeCard>
-      <div>Hi</div>
+      <div className="flex flex-col gap-8">
+        <span>
+          <Button className="w-full">
+            <Trash />
+          </Button>
+        </span>
+        <span>
+          <SelectForm
+            formType={'border'}
+            options={borderStyles}
+          ></SelectForm>
+        </span>
+        <span>
+          <SelectForm
+            formType={'rarity'}
+            options={rarities}
+          ></SelectForm>
+        </span>
+      </div>
     </div>
   );
 }
