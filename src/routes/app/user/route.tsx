@@ -44,9 +44,13 @@ function RouteComponent() {
             </Button>
           </li>
           <li>
-            {' '}
             <Button asChild>
               <Link to="/app/user/cards">Cards</Link>
+            </Button>
+          </li>
+          <li>
+            <Button asChild>
+              <Link to="/app/user/profile">Battle</Link>
             </Button>
           </li>
         </ul>

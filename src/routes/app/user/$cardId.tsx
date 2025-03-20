@@ -83,11 +83,12 @@ function RouteComponent() {
   };
 
   return (
-    <div>
+    <div className="px-80 grid grid-cols-2 gap-4 justify-items-center">
       <PokeCard
         pokemon={extractedCard}
         key={extractedCard.pokeId}
       ></PokeCard>
+      <div>Hi</div>
     </div>
   );
 }
