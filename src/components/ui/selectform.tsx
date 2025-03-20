@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { redirect, useRouter } from '@tanstack/react-router';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -21,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { format } from 'path';
 
 const FormSchema = z.object({
   choice: z.string({
@@ -31,16 +34,37 @@ const FormSchema = z.object({
 export function SelectForm({
   formType,
   options,
+  formSubmit,
 }: {
   formType: string;
   options: string[];
+  formSubmit: any;
 }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(JSON.stringify(data, null, 2));
+  const router = useRouter();
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const formattedData = {
+      [formType === 'border' ? 'border_style' : 'rarity']:
+        data.choice,
+    };
+    const jsonData = JSON.stringify(formattedData, null, 2);
+
+    const response = await formSubmit(jsonData);
+    if (!response) {
+      console.log('api call failed, handling gracefully...');
+      // instead of throwing an error, handle failure smoothly
+      throw redirect({
+        to: '/app/login',
+      });
+    }
+
+    console.log('API call succeeded:', response.data);
+    await router.invalidate();
+    return response.data;
   }
 
   return (

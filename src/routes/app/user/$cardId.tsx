@@ -15,6 +15,7 @@ import { SelectForm } from '../../../components/ui/selectform';
 import axios, { AxiosInstance } from 'axios';
 import api from '../../../lib/api';
 import { AppRouteContext } from '../../../main';
+import { useAuth } from '../../../auth';
 
 const apiGuard = async ({
   context,
@@ -53,6 +54,36 @@ const apiGuard = async ({
 
   console.log('API call succeeded:', response.data);
   return response.data;
+};
+
+const updateCard = async ({
+  apiId,
+  body,
+  auth,
+}: {
+  apiId: number;
+  body: Record<string, any>;
+  auth: ReturnType<typeof useAuth>;
+}) => {
+  console.log(body);
+  try {
+    const response = await api.patch(`/cards/${apiId}`, body, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return response; // make sure to return something
+  } catch (error) {
+    console.error('API Error:', error);
+
+    // check if error.response exists before accessing status
+    const status = error.response?.status;
+
+    if ([401, 400].includes(status)) {
+      console.log('unauthorized or bad request, logging out...');
+      await auth.logout();
+    }
+
+    return null; // return null instead of throwing
+  }
 };
 
 export const Route = createFileRoute('/app/user/$cardId')({
@@ -98,6 +129,8 @@ function RouteComponent() {
     rarity: card.rarity,
   };
 
+  const auth = useAuth();
+
   return (
     <div className="px-80 grid grid-cols-2 gap-4 justify-items-center">
       <PokeCard
@@ -114,12 +147,18 @@ function RouteComponent() {
           <SelectForm
             formType={'border'}
             options={borderStyles}
+            formSubmit={(body: Record<string, any>) =>
+              updateCard({ apiId: extractedCard.apiId, body, auth })
+            }
           ></SelectForm>
         </span>
         <span>
           <SelectForm
             formType={'rarity'}
             options={rarities}
+            formSubmit={(body: Record<string, any>) =>
+              updateCard({ apiId: extractedCard.apiId, body, auth })
+            }
           ></SelectForm>
         </span>
       </div>
