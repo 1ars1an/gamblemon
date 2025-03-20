@@ -184,17 +184,18 @@
   animation: glitch 0.4s infinite alternate;
 }
 
-/* Ensures that the back face is hidden when rotated away */
+/* styles for the pokecard flipping mechanics */
+/* - ensures that the back face is hidden when rotated away */
 .backface-hidden {
   backface-visibility: hidden;
 }
 
-/* Ensures child elements are rendered in 3D */
+/* - ensures child elements are rendered in 3D */
 .transform-style-preserve-3d {
   transform-style: preserve-3d;
 }
 
-/* Custom rotation utility if not available in Tailwind */
+/* custom rotation utility if not available in Tailwind */
 .rotate-y-180 {
   transform: rotateY(180deg);
 }

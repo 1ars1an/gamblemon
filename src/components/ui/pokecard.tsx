@@ -38,7 +38,7 @@ export function PokeCard({ pokemon }: { pokemon: Pokemon }) {
   const normalizedAttack = (scaledAttack / maxStatValue) * 100;
   const normalizedDefense = (scaledDefense / maxStatValue) * 100;
 
-  const linkToCard = pokemon.pokeId.toString();
+  const linkToCard = pokemon.apiId.toString();
 
   return (
     // 3D perspective container (must be in normal flow to work with the grid)

@@ -56,6 +56,7 @@ export const Route = createFileRoute('/app/user/cards')({
 
 export interface Pokemon {
   owner: number;
+  apiId: number;
   pokeId: number;
   pokemon: string;
   exp: number;
@@ -73,6 +74,7 @@ function RouteComponent() {
   const extractedCards: Pokemon[] = cards.map((card: any) => {
     return {
       owner: card.owner,
+      apiId: card.id,
       pokeId: card.pokemon.poke_id,
       pokemon: card.pokemon.name,
       exp: card.pokemon.base_experience,
